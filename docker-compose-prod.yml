@@ -2,9 +2,9 @@ version: "3.8"
 services:
   webapp:
     build:
-      context: ./src
+      context: ./next
       dockerfile: Dockerfile.prod
-    image: next-js-typescript
+    image: next-js
     restart: always
     volumes:
       - ./src:/app
@@ -21,8 +21,8 @@ services:
       - data-volume:/data/db
     environment:
       MONGO_INITDB_DATABASE: DBnext
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_USERNAME: Alex
+      MONGO_INITDB_ROOT_PASSWORD: password
     ports:
       - "27017:27017"
     networks:

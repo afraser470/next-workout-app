@@ -7,13 +7,11 @@ services:
     image: next-js
     restart: always
     volumes:
-      - ./src:/app
+      - ./next:/app
     ports:
       - "3000:3000"
     networks:
       - next-network
-    environment:
-      MONGODB_URI: mongodb://mongo:27017/test
 
   mongo:
     build:
