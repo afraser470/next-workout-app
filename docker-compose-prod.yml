@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+  webapp:
+    build:
+      context: ./src
+      dockerfile: Dockerfile.prod
+    image: next-js-typescript
+    restart: always
+    volumes:
+      - ./src:/app
+    ports:
+      - "443:443"
+
+  db:
+    build:
+      context: ./mongo
+      dockerfile: Dockerfile
+    restart: always
+    image: next-mongo-db
+    volumes:
+      - data-volume:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: DBnext
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - "27017:27017"
+    networks:
+      - next-network
+networks:
+  next-network:
+    driver: bridge
+
+volumes:
+  data-volume:

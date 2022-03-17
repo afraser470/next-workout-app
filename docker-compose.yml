@@ -1,0 +1,37 @@
+version: "3.8"
+services:
+  webapp:
+    build:
+      context: ./next
+      dockerfile: Dockerfile
+    image: next-js
+    restart: always
+    volumes:
+      - ./src:/app
+    ports:
+      - "3000:3000"
+    networks:
+      - next-network
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/test
+
+  mongo:
+    build:
+      context: ./mongo
+      dockerfile: Dockerfile
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: DBnext
+    ports:
+      - "27017:27017"
+    networks:
+      - next-network
+
+networks:
+  next-network:
+    driver: bridge
+
+volumes:
+  data-volume:
