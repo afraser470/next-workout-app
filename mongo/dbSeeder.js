@@ -1,7 +1,18 @@
-db.users.drop();
-db.users.insert([
+db.excersizes.drop();
+db.excersizes.insert([
   {
-    username:"alex",
-    password:"demo"
+    name:"example excersize",
+    url:"http://excersize.com",
+    description:"example description",
+    history:[]
+  }
+]);
+
+db.routines.drop();
+db.routines.insert([
+  {
+    name:"example routine",
+    description:"example description",
+    excersizes:[]
   }
 ]);
