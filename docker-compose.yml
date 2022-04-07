@@ -1,19 +1,5 @@
 version: "3.8"
 services:
-  webapp:
-    build:
-      context: ./next
-      dockerfile: Dockerfile
-    image: next-js
-    restart: always
-    volumes:
-      - ./next:/app
-      - /app/node_modules
-      - /app/.next
-    ports:
-      - "3000:3000"
-    networks:
-      - next-network
 
   mongo:
     build:
@@ -26,6 +12,20 @@ services:
       MONGO_INITDB_DATABASE: DBnext
     ports:
       - "27017:27017"
+    networks:
+      - next-network
+  webapp:
+    build:
+      context: ./next
+      dockerfile: Dockerfile
+    image: next-js
+    restart: always
+    volumes:
+      - ./next:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3000:3000"
     networks:
       - next-network
 
