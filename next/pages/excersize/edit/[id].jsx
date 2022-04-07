@@ -20,7 +20,7 @@ export default function EditExcersize({data}){
     return(
         <MainLayout>
             <div className="flex justify-center">
-                <ExcersizeForm apiPath='/api/excersize/editExcersize' reqType="PUT" data={data}></ExcersizeForm>
+                <ExcersizeForm apiPath='/api/excersize/editExcersize' reqType="PUT" data={data}/>
             </div>
         </MainLayout>
     )

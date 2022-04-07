@@ -5,7 +5,7 @@ export default function NewExcersize(){
     return(
         <MainLayout>
             <div className="flex justify-center">
-                <ExcersizeForm apiPath='/api/excersize/newExcersize' reqType="POST"></ExcersizeForm>
+                <ExcersizeForm apiPath='/api/excersize/newExcersize' reqType="POST"/>
             </div>
         </MainLayout>
     )
