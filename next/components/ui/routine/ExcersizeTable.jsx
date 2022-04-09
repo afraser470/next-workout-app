@@ -1,6 +1,6 @@
-export default function HistoryTable({data}){
+export default function ExcersizeTable({data}){
     return(
-        <div className="relative overflow-x-auto max-h-128 sm:rounded-lg mt-6">
+        <div className="relative overflow-x-auto sm:rounded-lg mt-6">
             <table className="w-full text-sm text-left mt-6">
                 <thead className="text-xs uppercase border-b">
                     <tr>
@@ -8,31 +8,19 @@ export default function HistoryTable({data}){
                             Excersize name
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Weight
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            Reps
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            Date
+                            Sets
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    {data[0].history.map((set,key)=>{
+                    {data[0].excersizes.map((excersize,key)=>{
                         return(        
                             <tr key={key} className="border-b">
                                 <th scope="row" className="px-6 py-4 font-medium">
-                                    {data[0].name}
+                                    {excersize.name}
                                 </th>
                                 <td className="px-6 py-4">
-                                    {set.weight}
-                                </td>
-                                <td className="px-6 py-4">
-                                    {set.reps}
-                                </td>
-                                <td className="px-6 py-4">
-                                    {set.date}
+                                    {excersize.sets}
                                 </td>
                             </tr>
                         )

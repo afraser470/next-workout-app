@@ -2,10 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-body,html{
-    height:100vh;
-    background: linear-gradient(160deg, rgba(15,23,42,1) 0%, rgba(12,54,90,1) 44%, rgba(9,83,134,1) 71%, rgba(4,129,204,1) 100%);
+body {
+  background: linear-gradient(160deg, rgba(15,23,42,1) 0%, rgba(12,54,90,1) 44%, rgba(9,83,134,1) 71%, rgba(4,129,204,1) 100%);
+    min-height: 100vh;
 }
 #__next{
     height:100%;
 }
+
+/* width */
+::-webkit-scrollbar {
+    width:3px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #e5e7eb; 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #e5e7eb; 
+  }

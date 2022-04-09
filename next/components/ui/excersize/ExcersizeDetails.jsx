@@ -26,7 +26,7 @@ export default function ExcersizeDetails({action,data,pb}){
                 <div className="text-2xl mt-6 flex flex-col gap-6 mr-6">
                     <div>
                         <div>Personnal Best:</div>
-                        <div className={pb != ""?"mt-3 text-yellow-400":"text-sm"}>{pb != ""?pb.weight+"kg x "+pb.reps+" reps":"No Attemp Recorded!"}</div>
+                        <div className={pb != ""?"mt-3 text-yellow-400":"text-sm"}>{pb != ""?pb:"No Attemp Recorded!"}</div>
                     </div>
                 </div>
             </div>

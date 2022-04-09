@@ -1,7 +1,5 @@
 import MainLayout from "../../components/layouts/MainLayout.jsx";
 import connectToDB from "../../lib/connectToDB";
-import ExcersizeCard from "../../components/ui/excersize/ExcersizeCard.jsx"
-import NavButton from "../../components/ui/NavButton.jsx";
 import AllExcersizes from "../../components/ui/excersize/AllExcersizes.jsx";
 
 export async function getServerSideProps() {

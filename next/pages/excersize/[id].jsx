@@ -1,12 +1,11 @@
 import MainLayout from "../../components/layouts/MainLayout.jsx";
 import connectToDB from "../../lib/connectToDB";
-import NavButton from "../../components/ui/NavButton.jsx";
-import FormButton from "../../components/ui/FormButton.jsx";
 import { useState } from "react";
 import { useRouter } from 'next/router'
 import { ObjectId } from "mongodb";
 import HistoryTable from "../../components/ui/excersize/HistoryTable.jsx";
 import ExcersizeDetails from "../../components/ui/excersize/ExcersizeDetails.jsx";
+import FindPB from "../../lib/function.js";
 
 export async function getServerSideProps({params}) {
     const ID = ObjectId(params.id);
@@ -16,15 +15,18 @@ export async function getServerSideProps({params}) {
     .find({_id:ID})
     .toArray();
     let data = JSON.parse(JSON.stringify(conn))
+    data[0].history.reverse();
+    const best = FindPB(data);
+
     return {
-        props: {data:data}
+        props: {data:data, best:best}
     }
 }
 
-export default function ExcersizeByID({data}){
+export default function ExcersizeByID({data,best}){
     const router = useRouter()
     const [excersizeId] = useState(data == undefined?"":data[0]._id);
-    const [pb] = useState(data[0].history.length != 0?data[0].history.reduce(function(prev, current){return (prev.weight > current.weight) ? prev : current  }):"");
+    const [pb] = useState(best);
 
 
     async function handleSubmit(e){
