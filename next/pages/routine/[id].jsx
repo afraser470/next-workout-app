@@ -5,8 +5,10 @@ import { useRouter } from 'next/router'
 import { ObjectId } from "mongodb";
 import RoutineDetails from "../../components/ui/routine/RoutineDetails.jsx";
 import ExcersizeTable from "../../components/ui/routine/ExcersizeTable.jsx";
+import { useSession,getSession } from "next-auth/react"
+import NavButton from "../../components/ui/NavButton.jsx";
 
-export async function getServerSideProps({params}) {
+export async function getServerSideProps({context,params}) {
     const ID = ObjectId(params.id);
     const { db } = await connectToDB();
     const conn = await db
@@ -15,7 +17,7 @@ export async function getServerSideProps({params}) {
     .toArray();
     let data = JSON.parse(JSON.stringify(conn))
     return {
-        props: {data:data}
+        props: {data:data,session: await getSession(context),}
     }
 }
 
@@ -40,13 +42,23 @@ export default function RoutineByID({data}){
             console.log(data.result);
         }
     }
-    
+    const { data: session } = useSession()
+
+    if (session) {    
+        return(
+            <MainLayout>
+                <div className="flex flex-col">
+                    <RoutineDetails action={handleSubmit} data={data}/>
+                    <ExcersizeTable data={data}/>
+                </div>
+            </MainLayout>
+        )
+    }
     return(
-        <MainLayout>
-            <div className="flex flex-col">
-                <RoutineDetails action={handleSubmit} data={data}/>
-                <ExcersizeTable data={data}/>
-            </div>
-        </MainLayout>
+    <MainLayout>
+        <div className="flex flex-col justify-evenly items-center h-80">
+        <NavButton page="/api/auth/signin" text="Sign In!"/>
+        </div>
+    </MainLayout>
     )
 }

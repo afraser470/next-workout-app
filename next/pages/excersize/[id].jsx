@@ -6,8 +6,10 @@ import { ObjectId } from "mongodb";
 import HistoryTable from "../../components/ui/excersize/HistoryTable.jsx";
 import ExcersizeDetails from "../../components/ui/excersize/ExcersizeDetails.jsx";
 import FindPB from "../../lib/function.js";
+import { useSession,getSession } from "next-auth/react"
+import NavButton from "../../components/ui/NavButton.jsx";
 
-export async function getServerSideProps({params}) {
+export async function getServerSideProps({params,context}) {
     const ID = ObjectId(params.id);
     const { db } = await connectToDB();
     const conn = await db
@@ -19,11 +21,12 @@ export async function getServerSideProps({params}) {
     const best = FindPB(data);
 
     return {
-        props: {data:data, best:best}
+        props: {data:data, best:best,session: await getSession(context),}
     }
 }
 
 export default function ExcersizeByID({data,best}){
+    const { data: session } = useSession()
     const router = useRouter()
     const [excersizeId] = useState(data == undefined?"":data[0]._id);
     const [pb] = useState(best);
@@ -46,13 +49,22 @@ export default function ExcersizeByID({data,best}){
             console.log(data.result);
         }
     }
-    
+    if (session) {  
+        return(
+            <MainLayout>
+                <div className="flex flex-col">
+                    <ExcersizeDetails action={handleSubmit} data={data} pb={pb}/>
+                    <HistoryTable data={data}/>
+                </div>
+            </MainLayout>
+        )
+    }
     return(
-        <MainLayout>
-            <div className="flex flex-col">
-                <ExcersizeDetails action={handleSubmit} data={data} pb={pb}/>
-                <HistoryTable data={data}/>
-            </div>
-        </MainLayout>
+      <MainLayout>
+        <div className="flex flex-col justify-evenly items-center h-80">
+          <NavButton page="/api/auth/signin" text="Sign In!"/>
+        </div>
+      </MainLayout>
     )
 }
+  

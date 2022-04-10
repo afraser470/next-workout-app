@@ -4,8 +4,9 @@ import connectToDB from "../../../lib/connectToDB";
 import RecordSet from "../../../components/ui/workout/RecordSet";
 import { useState } from "react";
 import NavButton from "../../../components/ui/NavButton";
+import { useSession,getSession } from "next-auth/react"
 
-export async function getServerSideProps({params}){
+export async function getServerSideProps({context,params}){
     const ID = ObjectId(params.id);
     const { db } = await connectToDB();
     const conn = await db
@@ -33,25 +34,35 @@ export async function getServerSideProps({params}){
     });
 
     return{
-        props: {sets:sets}
+        props: {sets:sets,session: await getSession(context),}
     }
 }
 
 export default function RecordRoutine({sets}){
 
     const [setsToDo,setSetsToDo] = useState(sets);
+    const { data: session } = useSession()
 
+    if (session) {   
+        return(
+            <MainLayout>
+                <div className="pb-6 border-b flex justify-between gap-6 mb-6">
+                    <NavButton page="/" text="Home"></NavButton>
+                </div>
+                <div className="flex flex-col overflow-y-auto max-h-128 items-center">
+                    {setsToDo.map((e,k)=>{
+                        return(
+                            <RecordSet index={k} key={k} excersize={e} apiPath="/api/workout/RecordSet" reqType="PUT" sets={setsToDo} setSets={setSetsToDo}/>
+                            )
+                        })}
+                </div>
+            </MainLayout>
+        )
+    }
     return(
         <MainLayout>
-            <div className="pb-6 border-b flex justify-between gap-6 mb-6">
-                <NavButton page="/" text="Home"></NavButton>
-            </div>
-            <div className="flex flex-col overflow-y-auto max-h-128 items-center">
-                {setsToDo.map((e,k)=>{
-                    return(
-                        <RecordSet index={k} key={k} excersize={e} apiPath="/api/workout/RecordSet" reqType="PUT" sets={setsToDo} setSets={setSetsToDo}/>
-                        )
-                    })}
+            <div className="flex flex-col justify-evenly items-center h-80">
+            <NavButton page="/api/auth/signin" text="Sign In!"/>
             </div>
         </MainLayout>
     )
